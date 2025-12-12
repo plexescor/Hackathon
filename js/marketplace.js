@@ -1,137 +1,164 @@
 const matchList = document.getElementById("matchList");
 const addMatchForm = document.getElementById("addMatchForm");
 const logoutBtn = document.getElementById("logoutBtn");
+const addPlayerBtn = document.getElementById("addPlayerBtn");
+const playersContainer = document.getElementById("playersContainer");
 
 // --- Logout ---
 logoutBtn?.addEventListener("click", () => {
-    console.log("[LOGOUT] Logout button clicked");
     auth.signOut()
-        .then(() => {
-            console.log("[LOGOUT] Successfully signed out");
-            window.location.href = "login.html";
-        })
-        .catch(err => {
-            console.error("[LOGOUT] Error signing out:", err);
-            alert("Error logging out: " + err.message);
-        });
+        .then(() => window.location.href = "login.html")
+        .catch(err => alert("Error logging out: " + err.message));
 });
 
-// --- Auth guard and main logic ---
+// --- Add new player row dynamically ---
+addPlayerBtn?.addEventListener("click", () => {
+    const row = document.createElement("div");
+    row.className = "player-row";
+    row.innerHTML = `
+        <input type="text" placeholder="Player Name" class="playerName" />
+        <input type="number" placeholder="Age" min="1" class="playerAge" />
+        <input type="number" placeholder="Skill %" min="0" max="100" class="playerSkill" />
+        <button type="button" class="btn-small removePlayerBtn">x</button>
+    `;
+    playersContainer.appendChild(row);
+
+    // Remove button
+    row.querySelector(".removePlayerBtn").addEventListener("click", () => {
+        row.remove();
+    });
+});
+
+// --- Auth guard & main logic ---
 auth.onAuthStateChanged(user => {
-    console.log("[AUTH] Auth state changed:", user);
-    if (!user) {
-        console.warn("[AUTH] No user logged in, redirecting to login.html");
-        window.location.href = "login.html";
-        return;
-    }
+    if (!user) return window.location.href = "login.html";
 
-    console.log("[AUTH] User logged in:", user.uid, user.email);
-
-    // Load matches
     loadMatches();
 
-    // Add new match
     addMatchForm?.addEventListener("submit", async e => {
-        e.preventDefault(); // STOP page reload
-        console.log("[ADD MATCH] Form submitted");
+        e.preventDefault();
 
         const sport = document.getElementById("matchSport")?.value.trim();
         const date = document.getElementById("matchDate")?.value;
         const time = document.getElementById("matchTime")?.value;
         const venue = document.getElementById("matchVenue")?.value.trim();
 
-        if (!sport || !date || !time || !venue) {
-            console.warn("[ADD MATCH] Missing form values", { sport, date, time, venue });
-            alert("Please fill in all fields!");
-            return;
-        }
-
-        console.log("[ADD MATCH] Values:", { sport, date, time, venue, user: user.uid });
+        if (!sport || !date || !time || !venue) return alert("Please fill all match fields!");
 
         try {
+            // Add match
             const docRef = await db.collection("match_requests").add({
-                sport,
-                date,
-                time,
-                venue,
-                createdByUID: user.uid,
+                sport, date, time, venue,
+                createdByUID: auth.currentUser.uid,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                 status: "open"
             });
-            console.log("[ADD MATCH] Document added with ID:", docRef.id);
+
+            // Add all players
+            const playerRows = document.querySelectorAll(".player-row");
+            for (const row of playerRows) {
+                const name = row.querySelector(".playerName").value.trim();
+                const age = Number(row.querySelector(".playerAge").value) || null;
+                const skill = Number(row.querySelector(".playerSkill").value) || 0;
+
+                if (name) {
+                    await db.collection("match_requests")
+                        .doc(docRef.id)
+                        .collection("players")
+                        .add({ name, age, skill });
+                }
+            }
+
             addMatchForm.reset();
-            alert("Match request added!");
+            playersContainer.innerHTML = `<div class="player-row">
+                <input type="text" placeholder="Player Name" class="playerName" />
+                <input type="number" placeholder="Age" min="1" class="playerAge" />
+                <input type="number" placeholder="Skill %" min="0" max="100" class="playerSkill" />
+            </div>`;
+            alert("Match request with players added!");
         } catch (err) {
-            console.error("[ADD MATCH] Error adding match:", err);
-            alert("Error adding match: " + err.message);
+            console.error("Error adding match:", err);
+            alert("Error: " + err.message);
         }
     });
 });
 
-// --- Load matches from Firestore ---
+// --- Load matches & players ---
 function loadMatches() {
-    console.log("[LOAD MATCHES] Initializing match listener...");
-
     db.collection("match_requests")
         .orderBy("createdAt", "desc")
         .onSnapshot(snapshot => {
-            console.log("[LOAD MATCHES] Snapshot received:", snapshot.size, "documents");
-            matchList.innerHTML = ""; // clear
+            matchList.innerHTML = "";
 
             if (snapshot.empty) {
-                console.log("[LOAD MATCHES] No open matches found");
                 matchList.innerHTML = "<p>No open matches yet.</p>";
                 return;
             }
 
             snapshot.forEach(doc => {
                 const data = doc.data();
-                console.log("[LOAD MATCHES] Processing doc:", doc.id, data);
+                if (data.status !== "open") return;
 
-                if (data.status === "open") {
-                    const card = document.createElement("div");
-                    card.className = "match-card";
-                    card.innerHTML = `
-                        <p><strong>Sport:</strong> ${data.sport}</p>
-                        <p><strong>Date:</strong> ${data.date}</p>
-                        <p><strong>Time:</strong> ${data.time}</p>
-                        <p><strong>Venue:</strong> ${data.venue}</p>
-                        <button class="btn-accept">Accept</button>
-                    `;
+                const card = document.createElement("div");
+                card.className = "match-card";
+                card.innerHTML = `
+                    <p><strong>Sport:</strong> ${data.sport}</p>
+                    <p><strong>Date:</strong> ${data.date}</p>
+                    <p><strong>Time:</strong> ${data.time}</p>
+                    <p><strong>Venue:</strong> ${data.venue}</p>
+                    <button class="btn-accept">Accept</button>
+                    <button class="btn-view-players">View Players</button>
+                    <div class="player-list" style="display:none; margin-top:5px;"></div>
+                `;
 
-                    const btn = card.querySelector(".btn-accept");
-                    btn?.addEventListener("click", async () => {
-                        console.log("[ACCEPT MATCH] Accept button clicked for doc:", doc.id);
+                // Accept with redirection
+                card.querySelector(".btn-accept").addEventListener("click", async () => {
+                    if (!auth.currentUser) return alert("Login first!");
+                    try {
+                        await db.collection("match_requests").doc(doc.id).update({
+                            status: "accepted",
+                            acceptedByUID: auth.currentUser.uid,
+                            acceptedAt: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+                        // Redirect to dashboard after accepting
+                        window.location.href = "dashboard.html";
+                    } catch (err) {
+                        console.error("Error accepting match:", err);
+                        alert("Error: " + err.message);
+                    }
+                });
 
-                        if (!auth.currentUser) {
-                            console.warn("[ACCEPT MATCH] No current user logged in!");
-                            alert("You must be logged in to accept matches!");
-                            return;
-                        }
+                // View players
+                const btnView = card.querySelector(".btn-view-players");
+                const playerListDiv = card.querySelector(".player-list");
 
-                        try {
-                            await db.collection("match_requests").doc(doc.id).update({
-                                status: "accepted",
-                                acceptedByUID: auth.currentUser.uid,
-                                acceptedAt: firebase.firestore.FieldValue.serverTimestamp()
-                            });
-                            console.log("[ACCEPT MATCH] Match accepted:", doc.id);
-                            alert("Match accepted!");
-                        } catch (err) {
-                            console.error("[ACCEPT MATCH] Error accepting match:", err);
-                            alert("Error accepting match: " + err.message);
-                        }
-                    });
+                btnView.addEventListener("click", async () => {
+                    if (playerListDiv.style.display === "block") {
+                        playerListDiv.style.display = "none";
+                        return;
+                    }
+                    playerListDiv.style.display = "block";
+                    playerListDiv.innerHTML = "Loading players...";
 
-                    matchList.appendChild(card);
-                }
+                    const playersSnap = await db.collection("match_requests")
+                        .doc(doc.id)
+                        .collection("players")
+                        .get();
+
+                    if (playersSnap.empty) {
+                        playerListDiv.innerHTML = "<p>No players added yet.</p>";
+                    } else {
+                        playerListDiv.innerHTML = "";
+                        playersSnap.forEach(playerDoc => {
+                            const p = playerDoc.data();
+                            const div = document.createElement("div");
+                            div.textContent = `${p.name} | Age: ${p.age || "-"} | Skill: ${p.skill || 0}%`;
+                            playerListDiv.appendChild(div);
+                        });
+                    }
+                });
+
+                matchList.appendChild(card);
             });
-        }, err => {
-            console.error("[LOAD MATCHES] Snapshot listener error:", err);
-            matchList.innerHTML = "<p>Error loading matches. Check console.</p>";
         });
 }
-
-// --- Debugging helper ---
-console.log("[DEBUG] marketplace.js loaded, waiting for auth state change...");
-firebase.firestore.setLogLevel('debug');

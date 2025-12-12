@@ -23,6 +23,19 @@
                 <input type="date" id="matchDate" required />
                 <input type="time" id="matchTime" required />
                 <input type="text" id="matchVenue" placeholder="Venue" required />
+
+                <!-- Player Inputs -->
+                <h4>Players</h4>
+                <div id="playersContainer">
+                    <div class="player-row">
+                        <input type="text" placeholder="Player Name" class="playerName" />
+                        <input type="number" placeholder="Age" min="1" class="playerAge" />
+                        <input type="number" placeholder="Skill %" min="0" max="100" class="playerSkill" />
+                    </div>
+                </div>
+                <button type="button" id="addPlayerBtn" class="btn-small">+ Add Player</button>
+
+                <br /><br />
                 <button type="submit" class="btn">Add Match</button>
             </form>
         </section>
@@ -32,9 +45,7 @@
         <!-- Match List -->
         <section>
             <h3>Open Matches</h3>
-            <div id="matchList" class="match-list">
-                <!-- Matches from Firebase will be injected here -->
-            </div>
+            <div id="matchList" class="match-list"></div>
         </section>
     </main>
 
