@@ -3,15 +3,27 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+    /* Changed to a more commonly available modern font */
+    font-family: 'Montserrat', sans-serif; 
 }
 
+/* --- Body & Background (Polished Gradient) --- */
 body {
-    background: linear-gradient(135deg, #1e3c72, #2a5298);
-    color: #fff;
+    /* Smoother, richer 4-point gradient */
+    background: linear-gradient(135deg, #441a80, #265fd0, #741dae, #125492);
+    background-size: 400% 400%;
+    animation: backgroundShift 15s ease infinite; /* New background animation keyframe */
+    color: #f0f8ff; /* Off-white for softer text */
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+}
+
+/* New Background Animation */
+@keyframes backgroundShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 /* --- Nav styling --- */
@@ -20,136 +32,156 @@ nav {
     justify-content: space-between;
     align-items: center;
     padding: 15px 30px;
-    background: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-    margin-bottom: 20px;
-    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.5); /* Darker backdrop */
+    backdrop-filter: blur(15px); /* Stronger blur */
+    box-shadow: 0 6px 30px rgba(0,0,0,0.6);
+    margin-bottom: 30px;
+    border-radius: 0 0 15px 15px; /* Smoother bottom edge for fixed-like nav */
+    border-top: 3px solid rgba(255, 255, 255, 0.1); /* Subtle top light line */
 }
 
 nav h2 {
-    font-size: 1.8rem;
-    background: linear-gradient(90deg, #ff6a00, #ee0979);
+    font-size: 2rem; /* Slightly larger */
+    /* Dynamic gradient text */
+    background: linear-gradient(90deg, #ff6a00, #ff00cc, #ff6a00); /* Adjusted colors for more pop */
+    background-size: 200% 100%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: gradientText 3s ease infinite;
+    animation: gradientText 4s linear infinite; /* Smoother, continuous text animation */
+    letter-spacing: 1px;
 }
 
 @keyframes gradientText {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    to { background-position: 200% center; } /* Smoothly moves the gradient */
 }
 
 .nav-buttons {
     display: flex;
-    gap: 10px;
+    gap: 15px; /* Increased gap */
 }
 
-.btn-outline {
-    padding: 8px 18px;
-    border: 2px solid #fff;
+/* --- Outline Button (Neon Effect) --- */
+.btn-outline, #marketBtn {
+    padding: 10px 20px;
+    border: 2px solid #00f0ff; /* Neon blue border */
     background: transparent;
-    color: #fff;
-    border-radius: 25px;
-    font-weight: bold;
+    color: #f0f8ff;
+    border-radius: 30px;
+    font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.4s ease;
+    box-shadow: 0 0 5px rgba(0, 240, 255, 0.5); /* Initial subtle neon glow */
 }
 
-.btn-outline:hover {
-    background: #fff;
-    color: #1e3c72;
-    transform: scale(1.05);
+.btn-outline:hover, #marketBtn:hover {
+    background: #00f0ff;
+    color: #1A2980;
+    transform: scale(1.08) translateY(-1px);
+    box-shadow: 0 0 20px #00f0ff, 0 0 40px rgba(0, 240, 255, 0.5); /* Stronger hover glow */
 }
 
 /* --- Main container --- */
 main {
     flex: 1;
     padding: 30px;
-    max-width: 900px;
+    max-width: 1000px; /* Slightly wider content area */
     margin: 0 auto;
 }
 
-/* --- Stats Section --- */
+/* --- Stats Section (Glassmorphism & Neon) --- */
 #quizStats {
-    background: rgba(255,255,255,0.05);
-    padding: 20px;
-    border-radius: 15px;
-    margin-bottom: 30px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+    background: rgba(255,255,255,0.08); /* Lighter translucent background */
+    padding: 25px;
+    border-radius: 20px;
+    margin-bottom: 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 15px rgba(255, 255, 255, 0.2) inset; /* Deep shadow + inner glow */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Glass border */
+    backdrop-filter: blur(10px);
     animation: fadeIn 1s ease forwards;
 }
 
 #quizStats h3 {
     margin-bottom: 15px;
-    font-size: 1.5rem;
-    color: #fffa;
+    font-size: 1.6rem;
+    color: #fff;
+    border-bottom: 2px solid #26D0CE;
+    padding-bottom: 5px;
 }
 
 #quizStats p {
-    margin-bottom: 8px;
-    font-size: 1.1rem;
+    margin-bottom: 10px;
+    font-size: 1.15rem;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
 }
 
-/* --- Quiz List / Cards --- */
+/* --- Quiz List / Cards (Holo/Shimmer Effect) --- */
 #quizList h3 {
-    margin-bottom: 15px;
-    font-size: 1.5rem;
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+    color: #26D0CE;
+    text-shadow: 0 0 10px rgba(38, 208, 206, 0.7);
 }
 
 .quiz-card {
-    background: rgba(255,255,255,0.05);
-    padding: 20px;
-    border-radius: 15px;
-    margin-bottom: 20px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: rgba(0,0,0,0.3);
+    padding: 25px;
+    border-radius: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    /* Dynamic Holo Border */
+    border: 2px solid transparent; 
+    border-image: linear-gradient(45deg, #12c2e9, #c471ed, #f64f59) 1;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
 }
 
 .quiz-card:hover {
-    transform: translateY(-5px) scale(1.01);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.7), 0 0 30px rgba(255, 255, 255, 0.3); /* Stronger shadow and outer glow */
+    border-image: linear-gradient(135deg, #f64f59, #c471ed, #12c2e9) 1; /* Reverse gradient on hover */
 }
 
 .quiz-card h4 {
-    margin-bottom: 8px;
+    margin-bottom: 10px;
+    font-size: 1.4rem;
+    color: #12c2e9;
+    text-shadow: 0 0 5px rgba(18, 194, 233, 0.5);
 }
 
 .quiz-card p {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    font-size: 1rem;
+    color: #d0d0d0;
 }
 
+/* --- Start Quiz Button (Glowing Primary) --- */
 .startQuizBtn {
-    padding: 10px 20px;
-    font-size: 1rem;
+    padding: 12px 25px;
+    font-size: 1.1rem;
     font-weight: bold;
     border: none;
-    border-radius: 25px;
+    border-radius: 30px;
     cursor: pointer;
-    background: linear-gradient(90deg, #12c2e9, #c471ed, #f64f59);
+    /* Richer primary gradient */
+    background: linear-gradient(90deg, #12c2e9, #c471ed, #f64f59); 
+    background-size: 300% 100%;
     color: #fff;
-    transition: all 0.3s ease;
+    transition: all 0.4s ease, background-position 0.6s ease;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4), 0 0 15px rgba(246, 79, 89, 0.5); /* Initial glow */
 }
 
 .startQuizBtn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 5px 20px rgba(255,255,255,0.4);
+    transform: scale(1.08);
+    background-position: 100% 0; /* Shift gradient on hover */
+    box-shadow: 0 8px 30px rgba(0,0,0,0.6), 0 0 25px rgba(246, 79, 89, 0.8), 0 0 40px rgba(196, 113, 237, 0.6); /* Intense glow */
 }
 
 /* --- Animations --- */
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
+    from { opacity: 0; transform: translateY(30px); }
     to { opacity: 1; transform: translateY(0); }
 }
 #marketBtn {
-    margin-right: 10px;
-}
-.quiz-card.completed {
-    border: 2px solid green;
-    background-color: #e9ffe9;
-}
-
-.quiz-card.completed button {
-    background-color: #b1ffb1;
+    margin-right: 0; /* Removed this margin as it's handled by gap in .nav-buttons */
 }

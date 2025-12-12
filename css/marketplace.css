@@ -7,30 +7,41 @@
 }
 
 body {
-    background: linear-gradient(135deg, #1e3c72, #2a5298);
     min-height: 100vh;
-    color: #fff;
     display: flex;
     flex-direction: column;
+    background: linear-gradient(135deg, #1e3c72, #2a5298, #6a11cb, #2575fc);
+    background-size: 400% 400%;
+    animation: bgAnimation 15s ease infinite;
+    color: #fff;
+}
+
+/* Gradient Background Animation */
+@keyframes bgAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 /* --- Nav Bar --- */
 nav {
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.35);
     padding: 15px 30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 6px 25px rgba(0,0,0,0.35);
+    animation: fadeIn 1s ease forwards;
 }
 
 nav h2 {
-    font-size: 1.8rem;
-    background: linear-gradient(90deg, #ff6a00, #ee0979);
+    font-size: 2rem;
+    background: linear-gradient(90deg, #ff6a00, #ee0979, #facc15, #3b82f6);
+    background-size: 300% 300%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: gradientText 3s ease infinite;
+    animation: gradientText 5s ease infinite;
 }
 
 @keyframes gradientText {
@@ -39,216 +50,178 @@ nav h2 {
     100% { background-position: 0% 50%; }
 }
 
+.nav-buttons {
+    display: flex;
+    gap: 12px;
+}
+
 .btn-outline {
-    padding: 8px 18px;
+    padding: 10px 20px;
     border: 2px solid #fff;
     background: transparent;
     color: #fff;
-    border-radius: 25px;
+    border-radius: 30px;
+    font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.4s ease;
 }
 
 .btn-outline:hover {
     background: #fff;
     color: #1e3c72;
-    transform: scale(1.05);
+    transform: scale(1.1) rotate(-1deg);
+    box-shadow: 0 6px 20px rgba(255,255,255,0.4);
 }
 
 /* --- Container --- */
 .container {
     flex: 1;
     padding: 30px;
-    max-width: 900px;
+    max-width: 1000px;
     margin: 0 auto;
+    animation: fadeIn 1.2s ease forwards;
 }
 
-/* --- Add Match Form --- */
-.add-match-section {
-    background: rgba(255,255,255,0.05);
+/* --- Match / Quiz Cards --- */
+.match-card, .quiz-card, .add-match-section {
+    background: rgba(255,255,255,0.08);
     padding: 25px;
-    border-radius: 15px;
-    backdrop-filter: blur(10px);
-    margin-bottom: 30px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-    animation: fadeIn 1s ease forwards;
+    border-radius: 20px;
+    backdrop-filter: blur(12px);
+    margin-bottom: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    transition: all 0.35s ease;
+    position: relative;
+    overflow: hidden;
 }
 
-.add-match-section h3, .add-match-section h4 {
-    margin-bottom: 15px;
-    color: #fffa;
+.match-card:hover, .quiz-card:hover, .add-match-section:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
 }
 
-.add-match-section input, .add-match-section select {
-    width: 100%;
-    padding: 10px 15px;
-    margin-bottom: 12px;
-    border-radius: 10px;
-    border: none;
-    outline: none;
-    background: rgba(255,255,255,0.15);
-    color: #fff;
-    font-size: 1rem;
-    transition: all 0.3s ease;
+/* Cards gradient border animation */
+.match-card::before, .quiz-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, #ff6a00, #ee0979, #facc15, #3b82f6);
+    animation: rotateGradient 8s linear infinite;
+    z-index: 0;
+    opacity: 0.25;
+    transform-origin: center;
 }
 
-.add-match-section input:focus {
-    background: rgba(255,255,255,0.25);
-    box-shadow: 0 0 10px rgba(255,255,255,0.5);
+@keyframes rotateGradient {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
-/* --- Standard Buttons --- */
-.btn {
-    display: inline-block;
-    padding: 12px 25px;
-    font-size: 1rem;
-    font-weight: bold;
+/* Content on top */
+.match-card > *, .quiz-card > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* --- Buttons --- */
+.btn, .match-card button, .quiz-card button, #addPlayerBtn, .removePlayerBtn {
     border: none;
     border-radius: 25px;
+    padding: 10px 20px;
+    font-weight: 600;
     cursor: pointer;
-    background: linear-gradient(90deg, #ff6a00, #ee0979);
     color: #fff;
     transition: all 0.3s ease;
-}
-
-.btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 5px 20px rgba(255,255,255,0.3);
-}
-
-/* --- Add Player & Remove Player Buttons --- */
-#addPlayerBtn {
     background: linear-gradient(135deg, #6a11cb, #2575fc);
-    color: #fff;
-    padding: 6px 12px;
-    border-radius: 8px;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 5px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.35);
 }
 
-#addPlayerBtn:hover {
+.btn:hover, .match-card button:hover, .quiz-card button:hover, #addPlayerBtn:hover, .removePlayerBtn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
     background: linear-gradient(135deg, #2575fc, #6a11cb);
-    transform: translateY(-2px) scale(1.05);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.25);
 }
 
-.removePlayerBtn {
-    background: linear-gradient(135deg, #fc5c7d, #6a82fb);
-    color: #fff;
-    padding: 2px 8px;
-    margin-left: 5px;
-    font-size: 0.8rem;
-    border-radius: 50%;
-    vertical-align: middle;
-    line-height: 1.2;
-    cursor: pointer;
+/* --- Form Inputs & Selects --- */
+form input,
+form select,
+.player-row input {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    border-radius: 12px;
+    border: none;
+    outline: none;
+    background: rgba(255,255,255,0.15); /* soft glass effect */
+    color: #fff; /* typed text white */
+    font-size: 1rem;
     transition: all 0.3s ease;
 }
 
-.removePlayerBtn:hover {
-    background: linear-gradient(135deg, #6a82fb, #fc5c7d);
-    transform: scale(1.2);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+/* Focus effect */
+form input:focus,
+form select:focus,
+.player-row input:focus {
+    background: rgba(255,255,255,0.3);
+    box-shadow: 0 0 12px rgba(255,255,255,0.6);
+}
+
+/* Placeholder styling */
+form input::placeholder,
+form select::placeholder,
+.player-row input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
 }
 
 /* --- Player Row --- */
 .player-row {
     display: flex;
-    gap: 5px;
-    margin-bottom: 8px;
+    gap: 8px;
     align-items: center;
 }
 
 .player-row input {
-    padding: 4px 6px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
     flex: 1;
-    font-size: 0.9rem;
-    transition: 0.3s;
-}
-
-.player-row input:focus {
-    border-color: #2575fc;
-    box-shadow: 0 0 5px rgba(37,117,252,0.5);
-    outline: none;
-}
-
-/* --- Match List --- */
-.match-list {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.match-card {
-    background: rgba(255,255,255,0.05);
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    position: relative;
-    animation: slideIn 0.6s ease forwards;
-    transition: transform 0.3s ease;
-}
-
-.match-card:hover {
-    transform: translateY(-5px) scale(1.01);
-}
-
-.match-card p {
-    margin-bottom: 8px;
-    font-size: 1rem;
-}
-
-.match-card button {
-    margin-right: 10px;
-    margin-top: 8px;
-    padding: 6px 15px;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    background: linear-gradient(90deg, #12c2e9, #c471ed, #f64f59);
+    border-radius: 8px;
+    border: none; /* remove gray border */
+    background: rgba(255,255,255,0.15);
     color: #fff;
-}
-
-.match-card button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 5px 15px rgba(255,255,255,0.4);
-}
-
-/* --- Player List --- */
-.player-list {
-    background: rgba(255,255,255,0.1);
     padding: 10px;
-    border-radius: 10px;
-    margin-top: 10px;
+}
+
+/* Optional: border highlight for focus inside player rows */
+.player-row input:focus {
+    border: none;
+    box-shadow: 0 0 12px rgba(255,255,255,0.6);
 }
 
 /* --- Animations --- */
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes slideIn {
-    from { opacity: 0; transform: translateX(-30px); }
-    to { opacity: 1; transform: translateX(0); }
-}
-/* Align nav buttons nicely */
-.nav-buttons {
-    display: flex;
-    gap: 10px;
-    align-items: center;
+    0% { opacity: 0; transform: translateX(-30px); }
+    100% { opacity: 1; transform: translateX(0); }
 }
 
-/* Optional: slightly bigger for heading row */
-nav button.btn-outline {
-    padding: 8px 18px;
-    font-size: 1rem;
+/* --- Completed Tag --- */
+.completed-tag {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #22c55e, #16a34a);
     font-weight: bold;
+    color: #fff;
+    animation: popIn 0.5s ease forwards;
+    margin-top: 10px;
 }
 
-/* Hover effect already exists in your CSS */
+@keyframes popIn {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
