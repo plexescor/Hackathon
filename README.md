@@ -74,8 +74,8 @@ This platform makes organizing school matches **fast, transparent, and fun** �
 │   ├── quiz.js
 │   └── quiz1.js
 ├── images
-│   ├── dashboard.js
-│   ├── match-market.js
+│   ├── dashboard.png
+│   ├── match-market.png
 ├── node_modules
 ├── .gitignore
 ├── dashboard.html
