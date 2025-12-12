@@ -1,0 +1,26 @@
+{
+  "name": "hackathon",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/plexescor/Hackathon.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/plexescor/Hackathon/issues"
+  },
+  "homepage": "https://github.com/plexescor/Hackathon#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.2.1",
+    "firebase-admin": "^13.6.0"
+  }
+}
