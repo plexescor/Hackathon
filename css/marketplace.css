@@ -237,3 +237,18 @@ nav h2 {
     from { opacity: 0; transform: translateX(-30px); }
     to { opacity: 1; transform: translateX(0); }
 }
+/* Align nav buttons nicely */
+.nav-buttons {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+/* Optional: slightly bigger for heading row */
+nav button.btn-outline {
+    padding: 8px 18px;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+/* Hover effect already exists in your CSS */

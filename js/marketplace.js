@@ -4,11 +4,17 @@ const logoutBtn = document.getElementById("logoutBtn");
 const addPlayerBtn = document.getElementById("addPlayerBtn");
 const playersContainer = document.getElementById("playersContainer");
 const dashboardBtn = document.getElementById("dashboardBtn");
+const quizBtn = document.getElementById("quizBtn");
 
 
 // --- Navigate to dashboard ---
 dashboardBtn?.addEventListener("click", () => {
     window.location.href = "dashboard.html";
+});
+
+// Navigate to quiz page
+quizBtn?.addEventListener("click", () => {
+    window.location.href = "quiz.html";
 });
 
 // --- Logout ---

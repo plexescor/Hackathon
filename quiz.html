@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Dashboard</title>
+
+    <link rel="stylesheet" href="css/quiz.css">
+</head>
+<body>
+
+    <nav>
+        <h2>Quiz Dashboard</h2>
+        <div class="nav-buttons">
+            <button id="marketBtn" class="btn-outline">Marketplace</button>
+        </div>
+        
+    </nav>
+
+    <main>
+        <!-- User Stats -->
+        <section id="quizStats">
+            <h3>Your Stats</h3>
+            <p>Total Completed Quizzes: <span id="totalQuizzes">0</span></p>
+            <p>Quizzes with 100% Score: <span id="perfectQuizzes">0</span></p>
+            <p>Total Questions Answered: <span id="totalQuestions">0</span></p>
+        </section>
+
+        <hr>
+
+        <!-- Quiz List -->
+        <section id="quizList">
+            <h3>Available Quizzes</h3>
+            <div class="quiz-card" data-quiz="quiz1">
+                <h4>Quiz 1: Sports quiz</h4>
+                <p>Number of Questions: 15</p>
+                <button class="startQuizBtn">Start Quiz</button>
+            </div>
+            <!-- <br>
+            <hr>
+            <div class="quiz-card" data-quiz="quiz2">
+                <h4>Quiz 2: Sports quiz remastered</h4>
+                <p>Number of Questions: 15</p>
+                <button class="startQuizBtn">Start Quiz</button>
+            </div>
+            <br>
+            <hr>
+            <div class="quiz-card" data-quiz="quiz3">
+                <h4>Quiz 3: Sports quiz comback</h4>
+                <p>Number of Questions: 10</p>
+                <button class="startQuizBtn">Start Quiz</button>
+            </div> -->
+            <!-- You can add more quiz cards here -->
+        </section>
+    </main>
+
+    <script src="js/quiz.js"></script>
+</body>
+</html>
