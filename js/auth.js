@@ -49,10 +49,10 @@ if (loginForm) {
     });
 }
 // LOGOUT
-const logoutBtn = document.getElementById("logoutBtn");
+const logoutButton = document.getElementById("logoutBtn");
 
-if (logoutBtn) {
-    logoutBtn.addEventListener("click", async () => {
+if (logoutButton) {
+    logoutButton.addEventListener("click", async () => {
         try {
             await auth.signOut();
             alert("Logged out!");
