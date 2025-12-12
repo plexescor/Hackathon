@@ -1,89 +1,79 @@
-// QUESTIONS
+// QUESTIONS - strictly official sports rules
 const questions = [
   {
-    question: "How many players are there in cricket?",
-    options: ["24", "11.5", "15", "11"],
-    correct: "11"                // d
+    question: "How many players are there in a cricket team on the field?",
+    options: ["11", "10", "12", "9"],
+    correct: "11"
   },
   {
-    question: "Identify the Indian Chess Player",
-    options: ["Praggnananda", "D. Gukesh", "Both a and b", "Magnus Carlson"],
-    correct: "Both a and b"      // c
+    question: "In chess, how many squares are there on the board?",
+    options: ["64", "72", "81", "100"],
+    correct: "64"
   },
   {
-    question: "Largest sportsperson producing state in India",
-    options: ["Haryana", "Uttar Pradesh", "Rajasthan", "Maharashtra"],
-    correct: "Haryana"           // a )
+    question: "How many players are on the field in a standard football (soccer) team?",
+    options: ["10", "11", "12", "9"],
+    correct: "11"
   },
   {
-    question: "Who is know as GOAT of Football",
-    options: ["Ronaldo", "Messi", "Neymar", "Japneet Singh Kohli"],
-    correct: "Messi"             // b
+    question: "In volleyball, which player is mainly responsible for receiving attacks?",
+    options: ["Libero", "Setter", "Attacker", "Receiver"],
+    correct: "Libero"
   },
   {
-    question: "Can we castle after getting a check",
-    options: ["Yes", "No", "Not Always", "None of the above"],
-    correct: "No"                // b 
+    question: "Can you castle in chess if your king is in check?",
+    options: ["Yes", "No", "Sometimes", "Only with rook"],
+    correct: "No"
   },
   {
-    question: "In volleyball What we call the player who mainly receives the ball",
-    options: ["Receiver", "Libero", "Attacker", "Setter"],
-    correct: "Libero"            // b
+    question: "How many players are there in a Kho-Kho team on the field?",
+    options: ["7", "8", "9", "11"],
+    correct: "9"
   },
   {
-    question: "How many columns are there in badminton court",
-    options: ["2000 units", "1500 units", "3000 units", "1000 units"],
-    correct: "1000 units"        // d 
+    question: "In badminton, how many columns (court divisions) are there for singles play?",
+    options: ["1", "2", "3", "4"],
+    correct: "2"
   },
   {
-    question: "How many players are there in Kho-Kho",
-    options: ["7", "8", "11", "9"],
-    correct: "9"                 // d
+    question: "In basketball, is it allowed to touch a player in the restricted area?",
+    options: ["Yes, but not always", "No, never", "Always yes", "Depends on referee"],
+    correct: "Yes, but not always"
   },
   {
-    question: "Is it necessary to not to touch a player in red column after section D. [Hint basketball related]",
-    options: ["Yes, but not always", "No, but not always", "Both a and b", "Yes, and always"],
-    correct: "Yes, but not always" // a)
+    question: "How long is a standard football (soccer) match duration?",
+    options: ["90 minutes", "80 minutes", "100 minutes", "60 minutes"],
+    correct: "90 minutes"
   },
   {
-    question: "Which AI application in sports helps predict potential injuries or fracture game outcomes by analyzing historical data?",
-    options: ["Expert Systems", "Predictive modelling/Analytics", "Generative AI", "Robotics"],
-    correct: "Predictive modelling/Analytics" // b
+    question: "In cricket, how many overs are there in a T20 match?",
+    options: ["20", "10", "50", "15"],
+    correct: "20"
   },
   {
-    question: "Where was the world’s tennis tournament is last held",
-    options: ["Italy", "Norway", "Australia", "Wimbledon"],
-    correct: "Italy" // a
+    question: "How many sets must a player win to win a Grand Slam tennis match (men's singles)?",
+    options: ["3", "2", "5", "4"],
+    correct: "3"
   },
   {
-    question: "Which of the followings in an Indian sports",
-    options: ["Poles", "Base Ball", "Cricket", "Chess"],
-    correct: "Cricket"           // c
+    question: "In hockey, how many players are on the field per team excluding the goalkeeper?",
+    options: ["10", "11", "9", "12"],
+    correct: "10"
   },
   {
-    question: "Which AI technology is commonly used to track player movements and ball trajectories in real time during a match.",
-    options: ["NLP", "Computer Vision", "ML", "Expert Systems"],
-    correct: "Computer Vision"   // b
+    question: "In football (soccer), what happens when a player commits a direct free kick foul inside their own penalty area?",
+    options: ["Corner kick", "Penalty kick", "Indirect free kick", "Throw-in"],
+    correct: "Penalty kick"
   },
   {
-    question: "Why do teams switch from a high press to a mid-block when facing a goalkeeper who is good at long–range distribution?",
-    options: [
-      "To avoid getting bypassed by long balls and losing defensive shape",
-      "Because mid-block increases the number of offsides",
-      "To force more throw-ins near the touchline",
-      "Because high pressing is banned when the keeper steps outside the box"
-    ],
-    correct: "To avoid getting bypassed by long balls and losing defensive shape" // a
+    question: "In volleyball, how many touches per team are allowed before sending the ball over the net?",
+    options: ["3", "2", "4", "5"],
+    correct: "3"
   },
   {
-    question: "Why do captains often use a slip fielder early in the innings but remove slips during middle overs in ODIs/T20s?",
-    options: [
-      "Because the ball swings less later and batsmen start playing straighter",
-      "Because field restrictions don’t allow slips after 10 overs",
-      "Because slips get tired quickly",
-      "Because umpires don’t allow close-in fielders after the powerplay"
-    ],
-    correct: "Because the ball swings less later and batsmen start playing straighter" // a
+    question: "In basketball, how many points is a shot made from beyond the three-point line worth?",
+    options: ["2", "3", "1", "4"],
+    correct: "3"
   }
 ];
 
@@ -114,7 +104,6 @@ function loadQuizUI() {
     block.appendChild(qTitle);
 
     // Options
-    //Radio so only one can be selected
     q.options.forEach(opt => {
       const label = document.createElement("label");
       label.style.display = "block";
@@ -137,13 +126,11 @@ function loadQuizUI() {
 }
 
 // ---------------------------
-// Submit handler - compute score & save to Firestore
+// Submit handler
 // ---------------------------
 submitBtn.addEventListener("click", async () => {
-  // Ensure user logged in
   if (!auth.currentUser) return alert("You must be logged in to submit the quiz.");
 
-  // Build responses, count correct
   const responses = [];
   let correctCount = 0;
 
@@ -154,7 +141,6 @@ submitBtn.addEventListener("click", async () => {
 
     if (isCorrect) correctCount++;
 
-    //Push the responses
     responses.push({
       question: q.question,
       userAnswer: userAnswer,
@@ -163,11 +149,9 @@ submitBtn.addEventListener("click", async () => {
     });
   });
 
-  // Calculate score %
   const totalQuestions = questions.length;
   const scorePercent = Math.round((correctCount / totalQuestions) * 100);
 
-  // Prepare payload to store in firebase
   const payload = {
     quizId: "quiz1",
     totalQuestions: totalQuestions,
@@ -175,9 +159,8 @@ submitBtn.addEventListener("click", async () => {
     scorePercent: scorePercent,
     responses: responses,
     completedAt: firebase.firestore.FieldValue.serverTimestamp()
-};
+  };
 
-  // Save to Firestore under users/{uid}/quiz_history
   try {
     await db.collection("users")
       .doc(auth.currentUser.uid)
@@ -185,7 +168,6 @@ submitBtn.addEventListener("click", async () => {
       .add(payload);
 
     alert(`Quiz submitted! Your score: ${scorePercent}% (${correctCount}/${totalQuestions})`);
-    // redirect back to quiz dashboard
     window.location.href = "quiz.html";
   } catch (err) {
     console.error("Error saving quiz result:", err);
