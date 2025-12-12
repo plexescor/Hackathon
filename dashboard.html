@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Dashboard</title>
+
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <div class="headerContainer" style="display: flex; justify-content: center; align-items: center; gap: 20px; margin-bottom: 20px;">
+        <h1>Team Dashboard</h1>
+        <button id="marketplaceBtn">Marketplace</button>
+    </div>
+
+    <!-- Ribbon showing match counts -->
+    <div id="matchRibbon" style="margin-bottom: 20px;">
+        <span id="pendingCount">Pending: 0</span> |
+        <span id="wonCount">Won: 0</span> |
+        <span id="lostCount">Lost: 0</span>
+        <span id="drawCount">Draw: 0</span>
+    </div>
+
+    <!-- Accepted matches container -->
+     <h4>HISTORY</h4>
+    <div id="acceptedMatches"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="js/firebase.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

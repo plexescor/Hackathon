@@ -3,6 +3,13 @@ const addMatchForm = document.getElementById("addMatchForm");
 const logoutBtn = document.getElementById("logoutBtn");
 const addPlayerBtn = document.getElementById("addPlayerBtn");
 const playersContainer = document.getElementById("playersContainer");
+const dashboardBtn = document.getElementById("dashboardBtn");
+
+
+// --- Navigate to dashboard ---
+dashboardBtn?.addEventListener("click", () => {
+    window.location.href = "dashboard.html";
+});
 
 // --- Logout ---
 logoutBtn?.addEventListener("click", () => {
@@ -23,10 +30,7 @@ addPlayerBtn?.addEventListener("click", () => {
     `;
     playersContainer.appendChild(row);
 
-    // Remove button
-    row.querySelector(".removePlayerBtn").addEventListener("click", () => {
-        row.remove();
-    });
+    row.querySelector(".removePlayerBtn").addEventListener("click", () => row.remove());
 });
 
 // --- Auth guard & main logic ---
@@ -95,7 +99,7 @@ function loadMatches() {
                 return;
             }
 
-            snapshot.forEach(doc => {
+            snapshot.forEach(async doc => {
                 const data = doc.data();
                 if (data.status !== "open") return;
 
@@ -111,16 +115,40 @@ function loadMatches() {
                     <div class="player-list" style="display:none; margin-top:5px;"></div>
                 `;
 
-                // Accept with redirection
+                // Accept with storing under user and redirect
                 card.querySelector(".btn-accept").addEventListener("click", async () => {
                     if (!auth.currentUser) return alert("Login first!");
                     try {
+                        // Update match status
                         await db.collection("match_requests").doc(doc.id).update({
                             status: "accepted",
                             acceptedByUID: auth.currentUser.uid,
                             acceptedAt: firebase.firestore.FieldValue.serverTimestamp()
                         });
-                        // Redirect to dashboard after accepting
+
+                        // Fetch players of this match
+                        const playersSnap = await db.collection("match_requests")
+                            .doc(doc.id)
+                            .collection("players")
+                            .get();
+
+                        const players = [];
+                        playersSnap.forEach(pDoc => {
+                            players.push(pDoc.data());
+                        });
+
+                        // Store accepted match info under current user
+                        await db.collection("users")
+                            .doc(auth.currentUser.uid)
+                            .collection("accepted_matches")
+                            .doc(doc.id)
+                            .set({
+                                ...data,
+                                acceptedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                                players: players
+                            });
+
+                        // Redirect after storing
                         window.location.href = "dashboard.html";
                     } catch (err) {
                         console.error("Error accepting match:", err);
