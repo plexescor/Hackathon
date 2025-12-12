@@ -3,22 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title>Sports Hub – Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
     <header class="hero">
-        <h1>🏆 Inter-School Sports Hub</h1>
-        <p>Schedule Matches <span style="margin: 0 10px;">•</span> Manage Teams <span style="margin: 0 10px;">•</span> Track Your Season</p>
+        <div class="hero-content">
+            <h1>🏆 Inter-School Sports Hub</h1>
+            <p>Schedule Matches <span style="margin: 0 10px;">•</span> Manage Teams <span style="margin: 0 10px;">•</span> Track Your Season</p>
 
-        <br>
-        <div class="hero-buttons">
-            <a class="btn" href="login.html">Login</a>
-            <a class="btn-outline" href="signup.html">Sign Up</a>
+            <div class="hero-buttons">
+                <a class="btn" href="login.html">Login</a>
+                <a class="btn-outline" href="signup.html">Sign Up</a>
+            </div>
         </div>
     </header>
 
-    <!-- Firebase Scripts -->
+    <div class="aux-links">
+        <a href="#">About Us</a> | 
+        <a href="#">Contact</a>
+    </div>
+
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>

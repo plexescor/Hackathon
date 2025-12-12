@@ -1,33 +1,136 @@
+/* --- Global & Animated Background --- */
 body {
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
-    background: #f7f9fc;
+    font-family: 'Poppins', sans-serif;
+    color: #333; /* Default text color */
+    min-height: 100vh; /* Ensure body covers the viewport for the animation */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center the hero vertically */
+    align-items: center; /* Center the hero horizontally */
+    
+    /* Animated Gradient Background - Kept the vibrant colors */
+    background: linear-gradient(
+        -45deg, 
+        #00c6ff, /* Brighter Blue */
+        #0072ff, /* Deep Blue */
+        #ff3a80, /* Hot Pink */
+        #ff8200  /* Bright Orange */
+    );
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite; 
 }
 
-.container {
-    width: 90%;
-    max-width: 900px;
-    margin: 40px auto;
+/* Keyframes for the gradient animation (Unchanged) */
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
-.btn {
-    background: royalblue;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 8px;
-    text-decoration: none;
-}
-
-.btn-outline {
-    border: 2px solid royalblue;
-    color: royalblue;
-    padding: 10px 20px;
-    border-radius: 8px;
-    text-decoration: none;
-}
-
+/* --- Hero Section (Positioning) --- */
 .hero {
+    width: 90%;
+    max-width: 600px; /* Reduced max-width for a focused central card */
+    margin: 0; /* Remove previous margin due to body centering */
     text-align: center;
-    padding: 80px 20px;
+}
+
+/* --- Hero Content (The High-Contrast Card) --- */
+.hero-content {
+    background-color: white; /* SOLID white for maximum contrast */
+    border-radius: 20px; /* More defined rounded corners */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25); /* Stronger shadow to lift it */
+    padding: 60px 40px;
+    
+    /* Animation: Fade in and subtle bounce on load */
+    animation: fadeIn 1s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.hero h1 {
+    font-size: 2.5em;
+    color: #0072ff; /* Deep Blue, high contrast */
+    margin-bottom: 0.2em;
+    font-weight: 700;
+}
+
+.hero p {
+    font-size: 1.1em;
+    margin-bottom: 30px;
+    color: #555; /* Retained this, but now it's over solid white */
+    font-weight: 400;
+}
+
+
+/* --- Buttons (Enhanced & Higher Contrast) --- */
+
+/* Base button styles (Mostly unchanged) */
+.btn, .btn-outline {
+    display: inline-block;
+    padding: 13px 30px; /* Slightly larger padding */
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700; /* Bolder text for visibility */
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1); /* Better transition curve */
+    margin: 10px 5px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Filled Button */
+.btn {
+    /* Using a strong, visible gradient */
+    background: linear-gradient(45deg, #ff8200, #ff3a80); /* Orange to Pink */
+    color: white;
+    border: 2px solid transparent;
+    
+    /* Hover Animation */
+    &:hover {
+        transform: translateY(-5px); 
+        box-shadow: 0 10px 25px rgba(255, 130, 0, 0.5); /* Shadow matching the color */
+    }
+}
+
+/* Outline Button */
+.btn-outline {
+    background-color: transparent;
+    border: 2px solid #0072ff; /* Deep Blue outline */
+    color: #0072ff;
+    
+    /* Hover Animation: Fill the button with color */
+    &:hover {
+        background: #0072ff;
+        color: white;
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 114, 255, 0.4); 
+    }
+}
+
+/* --- Auxiliary Links (Footer/Bottom links) --- */
+.aux-links {
+    color: white;
+    margin-top: 30px;
+    font-size: 0.9em;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5); /* Shadow for text visibility on gradient */
+}
+
+.aux-links a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.aux-links a:hover {
+    color: #ff8200; /* Bright hover color */
 }
