@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up – Sports Hub</title>
+    <link rel="stylesheet" href="css/forms.css">
+</head>
+<body>
+
+    <form class="form-card" id="signupForm">
+        <h2>Create Account</h2>
+
+        <label>Name</label>
+        <input type="text" id="signupName" required>
+
+        <label>Email</label>
+        <input type="email" id="signupEmail" required>
+
+        <label>Password</label>
+        <input type="password" id="signupPassword" required>
+
+        <button type="submit" class="btn">Sign Up</button>
+
+        <p>Already have an account? <a href="login.html">Login</a></p>
+    </form>
+
+<!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="js/firebase.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>
