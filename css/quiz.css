@@ -145,3 +145,11 @@ main {
 #marketBtn {
     margin-right: 10px;
 }
+.quiz-card.completed {
+    border: 2px solid green;
+    background-color: #e9ffe9;
+}
+
+.quiz-card.completed button {
+    background-color: #b1ffb1;
+}
