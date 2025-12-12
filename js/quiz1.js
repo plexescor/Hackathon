@@ -172,14 +172,13 @@ submitBtn.addEventListener("click", async () => {
 
   // Prepare payload to store
   const payload = {
-    quizName: "Quiz 1 — Sports & AI",
-    quizId: "quiz1",
+    quizId: "quiz1",    // IMPORTANT
     totalQuestions: totalQuestions,
     correct: correctCount,
     scorePercent: scorePercent,
     responses: responses,
     completedAt: firebase.firestore.FieldValue.serverTimestamp()
-  };
+};
 
   // Save to Firestore under users/{uid}/quiz_history
   try {

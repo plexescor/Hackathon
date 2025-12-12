@@ -47,7 +47,7 @@ auth.onAuthStateChanged(async (user) => {
 
         snapshot.forEach(doc => {
             const quiz = doc.data();
-            completed.add(quiz.quizName);
+            completed.add(quiz.quizId);
 
             userStats.totalQuizzes += 1;
             userStats.totalQuestions += quiz.totalQuestions;
