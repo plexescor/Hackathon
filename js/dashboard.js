@@ -1,3 +1,4 @@
+//DOM refs
 const acceptedMatchesDiv = document.getElementById("acceptedMatches");
 const pendingCountSpan = document.getElementById("pendingCount");
 const wonCountSpan = document.getElementById("wonCount");
@@ -10,7 +11,7 @@ auth.onAuthStateChanged(user => {
 
     loadAcceptedMatches(user.uid);
 });
-
+// Load accepted matches
 function loadAcceptedMatches(uid) {
     db.collection("users")
       .doc(uid)
@@ -18,10 +19,10 @@ function loadAcceptedMatches(uid) {
       .orderBy("acceptedAt", "desc")
       .onSnapshot(snapshot => {
           acceptedMatchesDiv.innerHTML = "";
-
+            // Reset counts
           let pending = 0, won = 0, lost = 0, draw = 0;
 
-          snapshot.forEach(doc => {
+          snapshot.forEach(doc => { // doc is each accepted match
               const match = doc.data();
               const result = match.result || "pending";
               const updatedAt = match.resultUpdatedAt ? match.resultUpdatedAt.toDate() : null;
@@ -38,11 +39,12 @@ function loadAcceptedMatches(uid) {
               card.style.padding = "10px";
               card.style.marginBottom = "10px";
 
+              // Players list
               let playersList = "";
               if (match.players && match.players.length > 0) {
                   playersList = match.players.map(p => `${p.name} | Age: ${p.age || "-"} | Skill: ${p.skill || 0}%`).join("<br>");
               }
-
+              // Card content
               card.innerHTML = `
                   <p><strong>Sport:</strong> ${match.sport}</p>
                   <p><strong>Date:</strong> ${match.date}</p>
@@ -80,7 +82,7 @@ function loadAcceptedMatches(uid) {
                       alert("Failed to update result");
                   }
               });
-
+              // Append card
               acceptedMatchesDiv.appendChild(card);
           });
 
@@ -91,7 +93,7 @@ function loadAcceptedMatches(uid) {
           drawCountSpan.textContent = `Draw: ${draw}`;
       });
 }
-
+// Navigation buttons
 document.getElementById("marketplaceBtn").addEventListener("click", () => {
     window.location.href = "marketplace.html";
 });

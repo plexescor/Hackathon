@@ -1,11 +1,4 @@
-// js/quiz1.js
-// Quiz rendering, scoring, storing to Firestore
-// Assumes: firebase (v8 compat), auth, db (firebase.firestore()) are available via your existing firebase.js
-
-// ---------------------------
-// QUESTIONS (edit answers here if you want)
-// ---------------------------
-// I made a best-effort pick for correct answers — change the `correct` values if you want.
+// QUESTIONS
 const questions = [
   {
     question: "How many players are there in cricket?",
@@ -20,7 +13,7 @@ const questions = [
   {
     question: "Largest sportsperson producing state in India",
     options: ["Haryana", "Uttar Pradesh", "Rajasthan", "Maharashtra"],
-    correct: "Haryana"           // a (common quiz answer)
+    correct: "Haryana"           // a )
   },
   {
     question: "Who is know as GOAT of Football",
@@ -30,7 +23,7 @@ const questions = [
   {
     question: "Can we castle after getting a check",
     options: ["Yes", "No", "Not Always", "None of the above"],
-    correct: "No"                // b (you cannot castle when in check)
+    correct: "No"                // b 
   },
   {
     question: "In volleyball What we call the player who mainly receives the ball",
@@ -40,17 +33,17 @@ const questions = [
   {
     question: "How many columns are there in badminton court",
     options: ["2000 units", "1500 units", "3000 units", "1000 units"],
-    correct: "1000 units"        // d  (question is ambiguous — edit if needed)
+    correct: "1000 units"        // d 
   },
   {
     question: "How many players are there in Kho-Kho",
     options: ["7", "8", "11", "9"],
-    correct: "9"                 // d (selected 9 as common fielding number)
+    correct: "9"                 // d
   },
   {
     question: "Is it necessary to not to touch a player in red column after section D. [Hint basketball related]",
     options: ["Yes, but not always", "No, but not always", "Both a and b", "Yes, and always"],
-    correct: "Yes, but not always" // a (ambiguous, change if needed)
+    correct: "Yes, but not always" // a)
   },
   {
     question: "Which AI application in sports helps predict potential injuries or fracture game outcomes by analyzing historical data?",
@@ -60,7 +53,7 @@ const questions = [
   {
     question: "Where was the world’s tennis tournament is last held",
     options: ["Italy", "Norway", "Australia", "Wimbledon"],
-    correct: "Italy" // a (per your note)
+    correct: "Italy" // a
   },
   {
     question: "Which of the followings in an Indian sports",
@@ -107,6 +100,7 @@ const backBtn = document.getElementById("backBtn");
 function loadQuizUI() {
   quizContainer.innerHTML = ""; // clear
 
+  // Render each question block
   questions.forEach((q, idx) => {
     const block = document.createElement("div");
     block.className = "question-block";
@@ -120,6 +114,7 @@ function loadQuizUI() {
     block.appendChild(qTitle);
 
     // Options
+    //Radio so only one can be selected
     q.options.forEach(opt => {
       const label = document.createElement("label");
       label.style.display = "block";
@@ -159,6 +154,7 @@ submitBtn.addEventListener("click", async () => {
 
     if (isCorrect) correctCount++;
 
+    //Push the responses
     responses.push({
       question: q.question,
       userAnswer: userAnswer,
@@ -167,12 +163,13 @@ submitBtn.addEventListener("click", async () => {
     });
   });
 
+  // Calculate score %
   const totalQuestions = questions.length;
   const scorePercent = Math.round((correctCount / totalQuestions) * 100);
 
-  // Prepare payload to store
+  // Prepare payload to store in firebase
   const payload = {
-    quizId: "quiz1",    // IMPORTANT
+    quizId: "quiz1",
     totalQuestions: totalQuestions,
     correct: correctCount,
     scorePercent: scorePercent,
@@ -188,7 +185,7 @@ submitBtn.addEventListener("click", async () => {
       .add(payload);
 
     alert(`Quiz submitted! Your score: ${scorePercent}% (${correctCount}/${totalQuestions})`);
-    // redirect back to quiz dashboard (or wherever you want)
+    // redirect back to quiz dashboard
     window.location.href = "quiz.html";
   } catch (err) {
     console.error("Error saving quiz result:", err);

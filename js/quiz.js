@@ -26,12 +26,13 @@ function renderStats() {
 
 // ------------------------------
 // Firebase Auth Guard + Load Stats
-// ------------------------------
+// ----------------------------
 auth.onAuthStateChanged(async (user) => {
-    if (!user) return window.location.href = "login.html";
+    if (!user) return window.location.href = "login.html"; //If not logged in
 
     const uid = user.uid;
 
+    // Load quiz history to compute stats
     db.collection("users")
       .doc(uid)
       .collection("quiz_history")
@@ -45,6 +46,7 @@ auth.onAuthStateChanged(async (user) => {
         // Track completed quizzes
         const completed = new Set();
 
+        // Compute stats
         snapshot.forEach(doc => {
             const quiz = doc.data();
             completed.add(quiz.quizId);
@@ -52,6 +54,7 @@ auth.onAuthStateChanged(async (user) => {
             userStats.totalQuizzes += 1;
             userStats.totalQuestions += quiz.totalQuestions;
 
+            //Add the score 
             if (quiz.scorePercent === 100) {
                 userStats.perfectQuizzes += 1;
             }
@@ -65,6 +68,7 @@ auth.onAuthStateChanged(async (user) => {
             const btn = card.querySelector(".startQuizBtn");
             btn.remove(); // remove the start button completely
 
+            //Some stuff
             const tag = document.createElement("div");
             tag.className = "completed-tag";
             tag.textContent = "✔ Completed";
@@ -102,7 +106,7 @@ marketBtn?.addEventListener("click", () => {
 // Dashboard Button
 // ------------------------------
 dashboardBtn?.addEventListener("click", () => {
-    window.location.href = "dashboard.html"; // or whatever your dashboard page is
+    window.location.href = "dashboard.html"; 
 });
 
 // Initial UI render

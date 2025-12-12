@@ -1,3 +1,4 @@
+//DOM refs
 const matchList = document.getElementById("matchList");
 const addMatchForm = document.getElementById("addMatchForm");
 const logoutBtn = document.getElementById("logoutBtn");
@@ -36,15 +37,18 @@ addPlayerBtn?.addEventListener("click", () => {
     `;
     playersContainer.appendChild(row);
 
+    //Remove the player
     row.querySelector(".removePlayerBtn").addEventListener("click", () => row.remove());
 });
 
 // --- Auth guard & main logic ---
 auth.onAuthStateChanged(user => {
+    //if not logged in, redirect to login
     if (!user) return window.location.href = "login.html";
 
-    loadMatches();
+    loadMatches(); //load matches for marketplace
 
+    // --- Handle add match form submission ---
     addMatchForm?.addEventListener("submit", async e => {
         e.preventDefault();
 
@@ -52,7 +56,7 @@ auth.onAuthStateChanged(user => {
         const date = document.getElementById("matchDate")?.value;
         const time = document.getElementById("matchTime")?.value;
         const venue = document.getElementById("matchVenue")?.value.trim();
-
+        // Basic validation
         if (!sport || !date || !time || !venue) return alert("Please fill all match fields!");
 
         try {
@@ -71,6 +75,7 @@ auth.onAuthStateChanged(user => {
                 const age = Number(row.querySelector(".playerAge").value) || null;
                 const skill = Number(row.querySelector(".playerSkill").value) || 0;
 
+                // Only add if name is provided
                 if (name) {
                     await db.collection("match_requests")
                         .doc(docRef.id)
@@ -78,7 +83,7 @@ auth.onAuthStateChanged(user => {
                         .add({ name, age, skill });
                 }
             }
-
+            // Reset form
             addMatchForm.reset();
             playersContainer.innerHTML = `<div class="player-row">
                 <input type="text" placeholder="Player Name" class="playerName" />
@@ -86,7 +91,7 @@ auth.onAuthStateChanged(user => {
                 <input type="number" placeholder="Skill %" min="0" max="100" class="playerSkill" />
             </div>`;
             alert("Match request with players added!");
-        } catch (err) {
+        } catch (err) { //Catch errors
             console.error("Error adding match:", err);
             alert("Error: " + err.message);
         }
@@ -99,12 +104,13 @@ function loadMatches() {
         .orderBy("createdAt", "desc")
         .onSnapshot(snapshot => {
             matchList.innerHTML = "";
-
+            // No matches
             if (snapshot.empty) {
                 matchList.innerHTML = "<p>No open matches yet.</p>";
                 return;
             }
 
+            // Render each match
             snapshot.forEach(async doc => {
                 const data = doc.data();
                 if (data.status !== "open") return;
@@ -166,6 +172,7 @@ function loadMatches() {
                 const btnView = card.querySelector(".btn-view-players");
                 const playerListDiv = card.querySelector(".player-list");
 
+                // Toggle player list display & load players
                 btnView.addEventListener("click", async () => {
                     if (playerListDiv.style.display === "block") {
                         playerListDiv.style.display = "none";
@@ -174,11 +181,12 @@ function loadMatches() {
                     playerListDiv.style.display = "block";
                     playerListDiv.innerHTML = "Loading players...";
 
+                    // Fetch players
                     const playersSnap = await db.collection("match_requests")
                         .doc(doc.id)
                         .collection("players")
                         .get();
-
+                    // No players
                     if (playersSnap.empty) {
                         playerListDiv.innerHTML = "<p>No players added yet.</p>";
                     } else {
@@ -191,7 +199,7 @@ function loadMatches() {
                         });
                     }
                 });
-
+                // Append match card
                 matchList.appendChild(card);
             });
         });

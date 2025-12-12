@@ -3,8 +3,9 @@ const signupForm = document.getElementById("signupForm");
 
 if (signupForm) {
     signupForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
+        e.preventDefault(); //Prevent default reloading
 
+        //Some constants
         const name = document.getElementById("signupName").value.trim();
         const email = document.getElementById("signupEmail").value.trim();
         const password = document.getElementById("signupPassword").value;
@@ -23,7 +24,7 @@ if (signupForm) {
 
             alert("Account created!");
             window.location.href = "marketplace.html"; // redirect
-        } catch (error) {
+        } catch (error) { //Catch error
             alert(error.message);
         }
     });
@@ -33,11 +34,13 @@ const loginForm = document.getElementById("loginForm");
 
 if (loginForm) {
     loginForm.addEventListener("submit", async (e) => {
+        //I don't want the page to reload
         e.preventDefault();
 
         const email = document.getElementById("loginEmail").value.trim();
         const password = document.getElementById("loginPassword").value;
 
+        //Try to login via email and password and redirect to marketplace
         try {
             await auth.signInWithEmailAndPassword(email, password);
 
@@ -54,6 +57,7 @@ const logoutButton = document.getElementById("logoutBtn");
 if (logoutButton) {
     logoutButton.addEventListener("click", async () => {
         try {
+            //Simple command to logout
             await auth.signOut();
             alert("Logged out!");
             window.location.href = "login.html"; // redirect to login
@@ -62,9 +66,9 @@ if (logoutButton) {
         }
     });
 }
-//UNABLE TO ACCESS MARKET PLACE OR DASHBOARD IF NOT !user
-// Protect pages
-const protectedPages = ["marketplace.html", "dashboard.html", "quiz.html"];
+//Make it UNABLE TO ACCESS MARKET PLACE OR DASHBOARD IF NOT !user
+// or Protect pages
+const protectedPages = ["marketplace.html", "dashboard.html", "quiz.html", "quiz1.html"];
 const currentPage = window.location.pathname.split("/").pop();
 
 auth.onAuthStateChanged(user => {
